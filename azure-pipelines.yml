@@ -77,8 +77,8 @@ steps:
 # Check code styles 
 #-------------------------------
 
-# - task: SonarCloudAnalyze@1
-#   displayName: Run static code analysis
+- task: SonarCloudAnalyze@1
+  displayName: Run static code analysis
 
 #-------------------------------
 # Run tests
@@ -109,10 +109,10 @@ steps:
     codeCoverageTool: Cobertura  
     summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'  
 
-# - task: SonarCloudPublish@1
-#   displayName: Publish Sonarcloud
-#   inputs:
-#     pollingTimeoutSec: '300'
+- task: SonarCloudPublish@1
+  displayName: Publish Sonarcloud
+  inputs:
+    pollingTimeoutSec: '300'
 
 #-------------------------------
 # Create executable package 
