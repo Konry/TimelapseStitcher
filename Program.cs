@@ -39,15 +39,15 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(o =>
     // parsing successful; go ahead and run the app
     levelSwitch.MinimumLevel = o.LogLevel;
     log.Information("Starting successful LogLevel {LogLevel}, checking folder {Folder}", o.LogLevel, o.Folder);
-
-    if (!o.OutputFolder.EndsWith(Path.DirectorySeparatorChar))
+    log.Information("{ProductName} - {Version}", AssemblyInformation.GetProductName(), AssemblyInformation.GetProductVersion());
+    if (!o.OutputFolder!.EndsWith(Path.DirectorySeparatorChar))
     {
         o.OutputFolder += Path.DirectorySeparatorChar;
     }
 
     log.Information("Check folder for videos");
     var dateOnly = DateOnly.FromDateTime(DateTime.Now.AddDays(-1));
-    var files = new FolderSearcher(log).GetAllFilesFrom(dateOnly, o.Folder);
+    var files = new FolderSearcher(log).GetAllFilesFrom(dateOnly, o.Folder!);
     if (files.Count == 0)
     {
         log.Warning("No files for the {Date}", dateOnly.ToString());
@@ -59,7 +59,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(o =>
     log.Information("Using ffmpeg path {Path}", o.FfmpegPath);
     GlobalFFOptions.Configure(new FFOptions
     {
-        BinaryFolder = o.FfmpegPath
+        BinaryFolder = o.FfmpegPath!
     });
 
 

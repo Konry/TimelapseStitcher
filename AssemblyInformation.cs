@@ -15,7 +15,15 @@ public static class AssemblyInformation
         return GetAssemblyInformation().CompanyName;
         
     }
+    public static string? GetProductVersion()
+    {
+        return GetAssemblyInformation().ProductVersion;
+    }
 
+    public static string? GetFileVersion()
+    {
+        return GetAssemblyInformation().FileVersion;
+    }
     private static FileVersionInfo GetAssemblyInformation()
     {
         var assembly = Assembly.GetExecutingAssembly();
