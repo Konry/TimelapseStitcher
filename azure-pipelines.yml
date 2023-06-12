@@ -124,8 +124,7 @@ steps:
     command: 'publish'
     publishWebProjects: false
     projects: '**/*.csproj'
-    modifyOutputPath: true
-    arguments: '-o $(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber) -c Release -f net7.0 -p:PublishSingleFile=false -p:SelfContained=true'
+    arguments: '-o $(Build.StagingDirectory)/TimelapseStitcher_$(Build.BuildNumber) -c Release -f net7.0 -p:PublishSingleFile=false -p:SelfContained=true'
     zipAfterPublish: false
 
 - task: ArchiveFiles@2
@@ -139,5 +138,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber)'
-    ArtifactName: 'TimelapseStitcher_LatestBuild'
+    ArtifactName: 'TimelapseStitcher_$(Build.BuildNumber)'
     publishLocation: 'Container'
