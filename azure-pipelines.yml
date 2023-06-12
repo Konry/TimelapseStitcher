@@ -125,7 +125,7 @@ steps:
     publishWebProjects: false
     projects: '**/*.csproj'
     modifyOutputPath: true
-    arguments: '-o $(build.artifactstagingdirectory) -r AnyCPU -c Release -f net7.0 -p:PublishSingleFile=true -p:SelfContained=true'
+    arguments: '-o $(Build.ArtifactStagingDirectory) -c Release -f net7.0 -p:PublishSingleFile=true -p:SelfContained=true'
 
 
 - task: PublishBuildArtifacts@1
