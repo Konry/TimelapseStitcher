@@ -124,12 +124,12 @@ steps:
     command: 'publish'
     publishWebProjects: false
     projects: '**/*.csproj'
-    arguments: '-o $(Build.StagingDirectory)/TimelapseStitcher_$(Build.BuildNumber) -c Release -f net7.0 -p:PublishSingleFile=false -p:SelfContained=true'
+    arguments: '-o $(Build.StagingDirectory)/TimelapseStitcher -c Release -f net7.0 -p:PublishSingleFile=false -p:SelfContained=true'
     zipAfterPublish: false
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.StagingDirectory)/TimelapseStitcher_$(Build.BuildNumber)'
+    rootFolderOrFile: '$(Build.StagingDirectory)/TimelapseStitcher'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_.$(Build.BuildNumber).zip'
