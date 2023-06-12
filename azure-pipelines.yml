@@ -126,6 +126,8 @@ steps:
     projects: '**/*.csproj'
     modifyOutputPath: true
     arguments: '-o $(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber) -c Release -f net7.0 -p:PublishSingleFile=false -p:SelfContained=true'
+    zipAfterPublish: True
+
 
 - task: PublishBuildArtifacts@1
   inputs:
