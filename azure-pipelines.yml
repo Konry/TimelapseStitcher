@@ -54,17 +54,17 @@ steps:
     verbosityRestore: 'Normal'
     arguments: '--configuration $(buildConfiguration)'
 
-- task: SonarCloudPrepare@1
-  displayName: Prepare Sonarcloud
-  inputs:
-    SonarCloud: '$(sonarcloud_project)'
-    organization: '$(sonarcloud_org)'
-    scannerMode: 'MSBuild'
-    projectKey: '$(sonarcloud_key)'
-    extraProperties: |
-      sonar.cs.vscoveragexml.reportsPaths=$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml
-    #configMode: 'file'
-    #scannerMode: 'CLI'
+# - task: SonarCloudPrepare@1
+#   displayName: Prepare Sonarcloud
+#   inputs:
+#     SonarCloud: '$(sonarcloud_project)'
+#     organization: '$(sonarcloud_org)'
+#     scannerMode: 'MSBuild'
+#     projectKey: '$(sonarcloud_key)'
+#     extraProperties: |
+#       sonar.cs.vscoveragexml.reportsPaths=$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml
+#     #configMode: 'file'
+#     #scannerMode: 'CLI'
 
 - task: DotNetCoreCLI@2
   displayName: Dotnet Build
@@ -77,8 +77,8 @@ steps:
 # Check code styles 
 #-------------------------------
 
-- task: SonarCloudAnalyze@1
-  displayName: Run static code analysis
+# - task: SonarCloudAnalyze@1
+#   displayName: Run static code analysis
 
 #-------------------------------
 # Run tests
@@ -109,10 +109,10 @@ steps:
     codeCoverageTool: Cobertura  
     summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'  
 
-- task: SonarCloudPublish@1
-  displayName: Publish Sonarcloud
-  inputs:
-    pollingTimeoutSec: '300'
+# - task: SonarCloudPublish@1
+#   displayName: Publish Sonarcloud
+#   inputs:
+#     pollingTimeoutSec: '300'
 
 #-------------------------------
 # Create executable package 
