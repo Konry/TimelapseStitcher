@@ -1,0 +1,143 @@
+name: $(majorMinorPatchVersion)$(tag)$(semanticVersion) # $(rev:r) # NOTE: rev resets when the default retention period expires
+
+trigger: 
+  branches:
+    include: 
+    - develop
+    - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  semanticVersion: $[counter(variables['majorMinorPatchVersion'], 0)]
+  ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+    tag: '-'
+  ${{ else }}:
+    tag: '-develop.'
+  solution: '**/*.sln'
+  buildConfiguration: 'Release'
+  majorMinorPatchVersion: 0.1.0 # has to be the same in all pipelines
+
+steps:
+
+#-------------------------------
+# Preparations
+#-------------------------------
+
+ 
+- task: UseDotNet@2
+  displayName: Install Dotnet SDK 7.x
+  inputs:
+    packageType: 'sdk'
+    version: '7.x'
+    includePreviewVersions: true
+ 
+- task: NuGetToolInstaller@1
+  displayName: Install Nuget
+  inputs:
+    versionSpec: '6.5.0'
+    checkLatest: true
+
+
+#-------------------------------
+# Build libraries
+#-------------------------------
+
+
+- task: DotNetCoreCLI@2
+  displayName: Dotnet Restore
+  inputs:
+    command: 'restore'
+    projects: '$(solution)'
+    feedsToUse: 'select'
+    verbosityRestore: 'Normal'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: SonarCloudPrepare@1
+  displayName: Prepare Sonarcloud
+  inputs:
+    SonarCloud: 'SonarCloud'
+    organization: '$(sonarcloud_org)'
+    scannerMode: 'MSBuild'
+    projectKey: '$(sonarcloud_key)'
+    extraProperties: |
+      sonar.cs.vscoveragexml.reportsPaths=$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml
+    #configMode: 'file'
+    #scannerMode: 'CLI'
+
+- task: DotNetCoreCLI@2
+  displayName: Dotnet Build
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
+    arguments: '--configuration $(buildConfiguration)'
+
+#-------------------------------
+# Check code styles 
+#-------------------------------
+
+- task: SonarCloudAnalyze@1
+  displayName: Run static code analysis
+
+#-------------------------------
+# Run tests
+#-------------------------------
+
+- task: DotNetCoreCLI@2
+  continueOnError: true
+  displayName: Dotnet Run UnitTests
+  inputs:
+    command: test
+    projects: '**/*Test.csproj'
+    arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --filter Category!~DEV'
+    
+
+- script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.19'  
+  continueOnError: true
+  displayName: 'Install ReportGenerator Tool'
+  
+- script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+  continueOnError: true
+  displayName: 'Create Code Coverage Reports'  
+  
+# Publish code coverage report to the pipeline
+- task: PublishCodeCoverageResults@1
+  continueOnError: true
+  displayName: 'Publish Code Coverage'
+  inputs:
+    codeCoverageTool: Cobertura  
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'  
+
+- task: SonarCloudPublish@1
+  displayName: Publish Sonarcloud
+  inputs:
+    pollingTimeoutSec: '300'
+
+#-------------------------------
+# Create executable package 
+#-------------------------------
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    projects: '**/*.csproj'
+    arguments: '-o $(Build.StagingDirectory) -c Release -f net7.0 -p:PublishSingleFile=false -p:SelfContained=true'
+    zipAfterPublish: false
+    modifyOutputPath: true
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.StagingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_.$(Build.BuildNumber).zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'TimelapseStitcher_$(Build.BuildNumber)'
+    publishLocation: 'Container'
