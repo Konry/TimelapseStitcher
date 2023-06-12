@@ -130,7 +130,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.StagingDirectory)/ci-build'
+    rootFolderOrFile: '$(Build.StagingDirectory)/TimelapseStitcher_$(Build.BuildNumber)'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_.$(Build.BuildNumber).zip'
