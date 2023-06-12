@@ -7,7 +7,7 @@ trigger:
     - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 variables:
   semanticVersion: $[counter(variables['majorMinorPatchVersion'], 0)]
@@ -54,17 +54,17 @@ steps:
     verbosityRestore: 'Normal'
     arguments: '--configuration $(buildConfiguration)'
 
-# - task: SonarCloudPrepare@1
-#   displayName: Prepare Sonarcloud
-#   inputs:
-#     SonarCloud: '$(sonarcloud_project)'
-#     organization: '$(sonarcloud_org)'
-#     scannerMode: 'MSBuild'
-#     projectKey: '$(sonarcloud_key)'
-#     extraProperties: |
-#       sonar.cs.vscoveragexml.reportsPaths=$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml
-#     #configMode: 'file'
-#     #scannerMode: 'CLI'
+- task: SonarCloudPrepare@1
+  displayName: Prepare Sonarcloud
+  inputs:
+    SonarCloud: '$(sonarcloud_project)'
+    organization: '$(sonarcloud_org)'
+    scannerMode: 'MSBuild'
+    projectKey: '$(sonarcloud_key)'
+    extraProperties: |
+      sonar.cs.vscoveragexml.reportsPaths=$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml
+    #configMode: 'file'
+    #scannerMode: 'CLI'
 
 - task: DotNetCoreCLI@2
   displayName: Dotnet Build
@@ -125,7 +125,7 @@ steps:
     publishWebProjects: false
     projects: '**/*.csproj'
     modifyOutputPath: true
-    arguments: '-o $(Build.ArtifactStagingDirectory) -c Release -f net7.0 -p:PublishSingleFile=true -p:SelfContained=true'
+    arguments: '-o $(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber) -c Release -f net7.0 -p:PublishSingleFile=true -p:SelfContained=true'
 
 
 - task: PublishBuildArtifacts@1
