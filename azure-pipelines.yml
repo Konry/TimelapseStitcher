@@ -133,3 +133,9 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'TimelapseStitcher'
     publishLocation: 'Container'
+    Parallel: 
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber)'
+    ArtifactName: 'TimelapseStitcher_LatestBuild'
+    publishLocation: 'Container'
