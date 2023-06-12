@@ -138,6 +138,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'TimelapseStitcher_$(Build.BuildNumber)'
     publishLocation: 'Container'
