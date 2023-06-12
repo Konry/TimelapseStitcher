@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using FFMpegCore;
+using FFMpegCore.Exceptions;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -68,8 +69,43 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(o =>
         log.Information("Starting to join the timelapse");
         var outputFileFormat = o.OutputFolder + $"TimeLapse-{dateOnly.ToString("yyyy-MM-dd")}.mp4";
 
-        FFMpeg.Join(outputFileFormat, files.ToArray());
-        log.Information("Join process finished {OutputFileNameAndFolder}", outputFileFormat);
+        var errorCounter = 0;
+        while (errorCounter < 100)
+        {
+            try
+            {
+                FFMpeg.Join(outputFileFormat, files.ToArray());
+                log.Information("Join process finished {OutputFileNameAndFolder}", outputFileFormat);
+            }
+            catch (FFMpegException e)
+            {
+                errorCounter++;
+                var toRemove = "";
+                foreach (var file in files.Where(file => e.Message.Contains(file)))
+                {
+                    toRemove = file;
+                }
+
+                if (toRemove != "")
+                {
+                    files.Remove(toRemove);
+                    log.Warning("Remove file {FileName} to try again, if stitching is running", toRemove);
+                }
+                else
+                {
+                    log.Warning("No file to remove found, cancel ");
+                    break;
+                }
+                log.Error("ffmpeg does not work with error {Error}", e.Message);
+                continue;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Unhandled exception raised {Error}", ex.Message);
+            }
+
+            break;
+        }
     });
     t.Wait();
 }).WithNotParsed(e =>
