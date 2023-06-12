@@ -39,7 +39,7 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(o =>
     // parsing successful; go ahead and run the app
     levelSwitch.MinimumLevel = o.LogLevel;
     log.Information("Starting successful LogLevel {LogLevel}, checking folder {Folder}", o.LogLevel, o.Folder);
-
+    log.Information("{ProductName} - {Version}", AssemblyInformation.GetProductName(), AssemblyInformation.GetProductVersion());
     if (!o.OutputFolder.EndsWith(Path.DirectorySeparatorChar))
     {
         o.OutputFolder += Path.DirectorySeparatorChar;
