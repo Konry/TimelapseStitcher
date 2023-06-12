@@ -127,13 +127,6 @@ steps:
     modifyOutputPath: true
     arguments: '-o $(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber) -c Release -f net7.0 -p:PublishSingleFile=true -p:SelfContained=true'
 
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'TimelapseStitcher'
-    publishLocation: 'Container'
-    Parallel: 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_$(Build.BuildNumber)'
