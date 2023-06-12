@@ -57,7 +57,7 @@ steps:
 - task: SonarCloudPrepare@1
   displayName: Prepare Sonarcloud
   inputs:
-    SonarCloud: '$(sonarcloud_project)'
+    SonarCloud: 'SonarCloud'
     organization: '$(sonarcloud_org)'
     scannerMode: 'MSBuild'
     projectKey: '$(sonarcloud_key)'
