@@ -37,7 +37,7 @@ public class FolderSearcher
                             return true;
                         }
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         _log.Warning("File {FileName} is not used due to a malformed date", Path.GetFileName(path));
                         return false;
