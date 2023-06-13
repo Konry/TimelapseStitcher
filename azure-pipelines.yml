@@ -71,7 +71,7 @@ steps:
   inputs:
     command: 'build'
     projects: '$(solution)'
-    arguments: '--configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/TimelapseStitcher'
+    arguments: '--configuration $(buildConfiguration)'
     versioningScheme: byBuildNumber
 
 #-------------------------------
@@ -119,6 +119,17 @@ steps:
 # Create executable package 
 #-------------------------------
 
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: 'publish'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output $(build.ArtifactStagingDirectory)/TimelapseStitcher'
+    zipAfterPublish: false
+    publishWebProjects: false
+    modifyOutputPath: false
+    versioningScheme: byBuildNumber
+    
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher'
@@ -129,6 +140,6 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher/TimelapseStitcher_.$(Build.BuildNumber).zip'
     ArtifactName: 'TimelapseStitcher_$(Build.BuildNumber)'
     publishLocation: 'Container'
