@@ -71,7 +71,7 @@ steps:
   inputs:
     command: 'build'
     projects: '$(solution)'
-    arguments: '--configuration $(buildConfiguration) '
+    arguments: '--configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/TimelapseStitcher'
     versioningScheme: byBuildNumber
 
 #-------------------------------
@@ -121,14 +121,14 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.StagingDirectory)'
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher_.$(Build.BuildNumber).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher/TimelapseStitcher_.$(Build.BuildNumber).zip'
     replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/TimelapseStitcher'
     ArtifactName: 'TimelapseStitcher_$(Build.BuildNumber)'
     publishLocation: 'Container'
