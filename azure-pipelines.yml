@@ -91,7 +91,7 @@ steps:
   inputs:
     command: test
     projects: '**/*Test.csproj'
-    arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" --filter Category!~DEV'
+    arguments: '--configuration $(buildConfiguration) --collect:"XPlat Code Coverage" --filter Category!~DEV'
     
 
 - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.1.19'  
@@ -124,7 +124,7 @@ steps:
   inputs:
     command: 'publish'
     projects: '**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output $(build.ArtifactStagingDirectory)/TimelapseStitcher'
+    arguments: '--configuration $(buildConfiguration) -p:PublishSingleFile=false -p:SelfContained=true --output $(build.ArtifactStagingDirectory)/TimelapseStitcher'
     zipAfterPublish: false
     publishWebProjects: false
     modifyOutputPath: false
