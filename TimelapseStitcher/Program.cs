@@ -39,15 +39,23 @@ Parser.Default.ParseArguments<Options>(args).WithParsed(o =>
 {
     // parsing successful; go ahead and run the app
     levelSwitch.MinimumLevel = o.LogLevel;
-    log.Information("Starting successful LogLevel {LogLevel}, checking folder {Folder}", o.LogLevel, o.Folder);
     log.Information("{ProductName} - {Version}", AssemblyInformation.GetProductName(), AssemblyInformation.GetProductVersion());
+    log.Information("Using following options");
+    log.Information("checking folder {Folder}", o.Folder );
+    log.Information("write output to {OutputFolder}", o.OutputFolder);
+    if (o.Date != null)
+    {
+        log.Information("check timelapse from date {Date}", o.Date);
+    }
+    log.Information("LogLevel {LogLevel}", o.LogLevel);
     if (!o.OutputFolder!.EndsWith(Path.DirectorySeparatorChar))
     {
         o.OutputFolder += Path.DirectorySeparatorChar;
     }
 
     log.Information("Check folder for videos");
-    var dateOnly = DateOnly.FromDateTime(DateTime.Now.AddDays(-1));
+    
+    DateOnly dateOnly = o.Date ?? DateOnly.FromDateTime(DateTime.Now.AddDays(-1));
     var files = new FolderSearcher(log).GetAllFilesFrom(dateOnly, o.Folder!);
     if (files.Count == 0)
     {

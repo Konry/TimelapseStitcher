@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelapseStitcher", "TimelapseStitcher.csproj", "{BAA6F8E8-168E-4028-ADE2-DF9408EBEAC6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelapseStitcherTest", "TimelapseStitcherTest\TimelapseStitcherTest.csproj", "{B8659675-E842-4AA3-B108-639E6B1A181A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelapseStitcher", "TimelapseStitcher\TimelapseStitcher.csproj", "{641D0402-A641-4701-8B88-9EC8B58BDD65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +10,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BAA6F8E8-168E-4028-ADE2-DF9408EBEAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BAA6F8E8-168E-4028-ADE2-DF9408EBEAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BAA6F8E8-168E-4028-ADE2-DF9408EBEAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BAA6F8E8-168E-4028-ADE2-DF9408EBEAC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8659675-E842-4AA3-B108-639E6B1A181A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8659675-E842-4AA3-B108-639E6B1A181A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8659675-E842-4AA3-B108-639E6B1A181A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8659675-E842-4AA3-B108-639E6B1A181A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{641D0402-A641-4701-8B88-9EC8B58BDD65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{641D0402-A641-4701-8B88-9EC8B58BDD65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{641D0402-A641-4701-8B88-9EC8B58BDD65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{641D0402-A641-4701-8B88-9EC8B58BDD65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

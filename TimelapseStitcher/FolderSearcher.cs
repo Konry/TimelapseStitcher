@@ -24,7 +24,8 @@ public class FolderSearcher
         var files = Directory.GetFiles(folder,"*." + FileEnding)
             .Where(path =>
             {
-                var matches = Regex.Match(path.ToLowerInvariant(), _regexPattern);;
+                const int timeoutInSeconds = 5;
+                var matches = Regex.Match(path, _regexPattern, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(timeoutInSeconds));
                 if (matches.Groups.Count > 1)
                 {
                     try

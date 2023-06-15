@@ -72,7 +72,8 @@ steps:
     command: 'build'
     projects: '$(solution)'
     arguments: '--configuration $(buildConfiguration)'
-    versioningScheme: byBuildNumber
+    versioningScheme: byEnvVar
+    versionEnvVar: Build.BuildNumber
 
 #-------------------------------
 # Check code styles 
@@ -123,12 +124,13 @@ steps:
   displayName: 'dotnet publish'
   inputs:
     command: 'publish'
-    projects: '**/*.csproj'
+    projects: '**/TimelapseStitcher.csproj'
     arguments: '--configuration $(buildConfiguration) -p:PublishSingleFile=false -p:SelfContained=true --output $(build.ArtifactStagingDirectory)/TimelapseStitcher'
     zipAfterPublish: false
     publishWebProjects: false
     modifyOutputPath: false
-    versioningScheme: byBuildNumber
+    versioningScheme: byEnvVar
+    versionEnvVar: Build.BuildNumber
     
 - task: ArchiveFiles@2
   inputs:
