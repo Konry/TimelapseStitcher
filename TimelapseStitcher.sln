@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelapseStitcherTests", "TimelapseStitcherTests\TimelapseStitcherTests.csproj", "{B8659675-E842-4AA3-B108-639E6B1A181A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelapseStitcherTest", "TimelapseStitcherTest\TimelapseStitcherTest.csproj", "{B8659675-E842-4AA3-B108-639E6B1A181A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimelapseStitcher", "TimelapseStitcher\TimelapseStitcher.csproj", "{641D0402-A641-4701-8B88-9EC8B58BDD65}"
 EndProject
